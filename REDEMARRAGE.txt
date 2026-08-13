@@ -1,0 +1,36 @@
+🔄 ÉTAPES DE REDÉMARRAGE (À FAIRE MAINTENANT)
+==================================================
+
+1️⃣ ARRÊTER LE SERVEUR
+   → Appuyer sur Ctrl+C dans le terminal
+
+2️⃣ REDÉMARRER LE SERVEUR
+   → pnpm dev
+
+3️⃣ NETTOYER LE NAVIGATEUR
+   → F12 (DevTools)
+   → Application > Local Storage > http://localhost:5173
+   → Supprimer TOUT (ou juste "auth_token")
+   → Fermer DevTools
+   → Ctrl+Shift+R (vider cache + recharger)
+
+4️⃣ SE RECONNECTER
+   → Aller sur /login
+   → Se connecter
+   → Vérifier que vous êtes bien connecté
+
+5️⃣ TESTER L'INSCRIPTION PROPRIÉTAIRE
+   → Aller sur /owner/register
+   → Remplir le formulaire
+   → Soumettre
+
+✅ RÉSULTAT ATTENDU :
+   - Redirection vers /owner/dashboard
+   - Header affiche "Propriétaire"
+   - Pas d'erreur 401 ou /auth/sync
+
+❌ SI ÇA NE MARCHE PAS :
+   - Ouvrir en mode Incognito (Ctrl+Shift+N)
+   - Retester
+
+==================================================

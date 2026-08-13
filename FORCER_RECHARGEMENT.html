@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔄 Forcer le rechargement - LuxeStay</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin: 0 0 20px 0;
+            font-size: 2.5em;
+        }
+        button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            transform: scale(1.05);
+        }
+        .success {
+            background: rgba(76, 175, 80, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+        .steps {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .step {
+            margin: 15px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .step:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Forcer le rechargement</h1>
+
+        <p><strong>Problème détecté :</strong> Votre navigateur charge encore l'ancien code JavaScript depuis son cache.</p>
+
+        <div class="steps">
+            <h2>📋 Étapes automatiques :</h2>
+            <div class="step">Suppression du cache</div>
+            <div class="step">Suppression du localStorage</div>
+            <div class="step">Rechargement complet</div>
+        </div>
+
+        <div style="text-align: center;">
+            <button onclick="forcerNettoyage()">🧹 NETTOYER ET RECHARGER</button>
+            <button onclick="ouvrirIncognito()">🕵️ MODE INCOGNITO</button>
+        </div>
+
+        <div id="success" class="success">
+            <h3>✅ Cache nettoyé !</h3>
+            <p>Redirection dans 3 secondes...</p>
+        </div>
+
+        <div style="margin-top: 30px; font-size: 0.9em; opacity: 0.8;">
+            <p><strong>Si le problème persiste :</strong></p>
+            <ol style="text-align: left;">
+                <li>Fermez TOUS les onglets de localhost:5173</li>
+                <li>Fermez complètement le navigateur</li>
+                <li>Rouvrez le navigateur</li>
+                <li>Allez sur localhost:5173</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function forcerNettoyage() {
+            try {
+                // Nettoyer localStorage
+                localStorage.clear();
+
+                // Nettoyer sessionStorage
+                sessionStorage.clear();
+
+                // Nettoyer les cookies
+                document.cookie.split(";").forEach(function(c) {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+                });
+
+                // Afficher le succès
+                document.getElementById('success').style.display = 'block';
+
+                // Rediriger après 3 secondes
+                setTimeout(function() {
+                    // Force le rechargement sans cache
+                    window.location.href = 'http://localhost:5173?' + Date.now();
+                }, 3000);
+
+            } catch (e) {
+                alert('Erreur : ' + e.message + '\n\nVeuillez faire Ctrl+Shift+R pour recharger.');
+            }
+        }
+
+        function ouvrirIncognito() {
+            alert('Mode Incognito:\n\n1. Appuyez sur Ctrl+Shift+N (Windows) ou Cmd+Shift+N (Mac)\n2. Allez sur http://localhost:5173\n3. Connectez-vous et testez');
+        }
+
+        // Détecter Ctrl+Shift+R
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'R') {
+                e.preventDefault();
+                forcerNettoyage();
+            }
+        });
+    </script>
+</body>
+</html>
