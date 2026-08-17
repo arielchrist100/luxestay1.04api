@@ -6,7 +6,8 @@ async function test(){
 
     try {
 
-        const token = await getCinetPayToken();
+       
+      const token = await getCinetPayToken();
 
         console.log("✅ Connexion CinetPay réussie");
         console.log("TOKEN :", token);
