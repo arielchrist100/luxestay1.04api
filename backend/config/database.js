@@ -3,12 +3,30 @@ require("dotenv").config();
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
+
+  ssl: {
+    rejectUnauthorized: false
+  },
+
   waitForConnections: true,
   connectionLimit: 10,
+  queueLimit: 0
 });
+
+// ===============================
+// TEST CONNEXION AIVEN MYSQL
+// ===============================
+pool.getConnection()
+  .then(connection => {
+    console.log("✅ Connexion Aiven MySQL réussie");
+    connection.release();
+  })
+  .catch(error => {
+    console.error("❌ Erreur connexion Aiven :", error.message);
+  });
 
 module.exports = pool;
