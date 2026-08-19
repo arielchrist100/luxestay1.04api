@@ -1,45 +1,17 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 
-// Fonction helper pour accéder aux variables d'environnement de manière sûre
-const getEnvVar = (key: string, defaultValue: string): string => {
-  try {
-    // @ts-ignore - import.meta.env peut ne pas être disponible dans tous les environnements
-    return import.meta?.env?.[key] || defaultValue;
-  } catch {
-    return defaultValue;
-  }
-};
-
-// Configuration Firebase
-// Pour la production, configurez ces valeurs dans votre fichier .env
 const firebaseConfig = {
-  apiKey: "AIzaSyBKwRkvYmyHUdsTs7akXev8VF-mTlqCft8",
-  authDomain: "resiweb1.firebaseapp.com",
-  projectId: "resiweb1",
-  storageBucket: "resiweb1.firebasestorage.app",
-  messagingSenderId: "918727327847",
-  appId: "1:918727327847:web:eee070ed06034763a614c2",
-  measurementId: "G-RCRGP6E1KF"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-let app;
-let auth;
+const app = initializeApp(firebaseConfig);
 
-try {
-  // Initialiser Firebase
-  app = initializeApp(firebaseConfig);
-  // Initialiser Firebase Auth
-  auth = getAuth(app);
-} catch (error) {
-  console.error('Firebase initialization failed:', error);
-  // Créer des objets mock pour éviter les crashes
-  app = {} as any;
-  auth = {
-    currentUser: null,
-    onAuthStateChanged: () => () => {},
-  } as any;
-}
+export const auth = getAuth(app);
 
-export { auth };
 export default app;
