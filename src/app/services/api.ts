@@ -18,8 +18,10 @@ const getEnvVar = (key: string, defaultValue: string): string => {
 };
 
 // URL de base de votre API Laravel
-const API_BASE_URL = getEnvVar('VITE_API_URL', 'http://localhost:3000/api');
+const API_BASE_URL = getEnvVar(
+  'VITE_API_URL',
 
+);
 // Instance Axios
 const api = axios.create({
   baseURL: API_BASE_URL,
