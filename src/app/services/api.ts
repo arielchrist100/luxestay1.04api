@@ -20,6 +20,7 @@ const getEnvVar = (key: string, defaultValue: string): string => {
 // URL de base de votre API Laravel
 const API_BASE_URL = getEnvVar(
   'VITE_API_URL',
+  'https://luxestay1-04api-4.onrender.com/api'
 
 );
 // Instance Axios
